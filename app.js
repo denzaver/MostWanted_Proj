@@ -13,7 +13,7 @@ function app(people){
       break;
     case 'no':
       // TODO: search by traits
-      searchResults = 
+      searchResults = searchByTrait(people)
       break;
       default:
     app(people); // restart app
@@ -72,6 +72,21 @@ function searchByName(people){
   // TODO: find the person using the name they entered
   return foundPerson;
 }
+
+function searchByTrait(people){
+  let eyeColor = promptFor("What is the person's eye color?", chars);
+
+  let foundPerson = people.filter(function(person){
+    if(person.eyeColor === eyeColor){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+  return foundPerson;
+}
+
 
 // alerts a list of people
 function displayPeople(people){
