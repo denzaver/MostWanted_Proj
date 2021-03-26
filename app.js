@@ -13,6 +13,7 @@ function app(people){
       break;
     case 'no':
       // TODO: search by traits
+      searchResults = 
       break;
       default:
     app(people); // restart app
@@ -38,6 +39,7 @@ function mainMenu(person, people){
   switch(displayOption){
     case "info":
     // TODO: get person's info
+    console.log();
     break;
     case "family":
     // TODO: get person's family
