@@ -19,9 +19,10 @@ function app(people){
     app(people); // restart app
       break;
   }
-  
+
   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
   mainMenu(searchResults, people);
+  
 }
 
 // Menu function to call once you find who you are looking for
@@ -70,14 +71,40 @@ function searchByName(people){
     }
   })
   // TODO: find the person using the name they entered
-  return foundPerson;
+  return foundPerson[0];
 }
 
 function searchByTrait(people){
-  let eyeColor = promptFor("What is the person's eye color?", chars);
+
+  let searchTrait = promptFor("Do you know the trait you want to seach by?", chars).toLowerCase();
+  let traitsFund;
+  switch(searchTrait){
+    case "gender":
+      traitsFound = genderSearch(people);
+      break;
+
+    case "dob":
+    traitsFund = genderSearch(people);
+    break;
+
+    case "restart":
+      app(people);
+      break;
+
+    case "quit":
+      return;
+
+    default:
+    return mainMenue(person, people);
+  }
+  searchByTrait(traitsFund);
+}
+
+function genderSearch(people){
+  let gender = promptFor ("What gender are they: male or female?", chars).toLowerCase();
 
   let foundPerson = people.filter(function(person){
-    if(person.eyeColor === eyeColor){
+    if(person.gender === gender){
       return true;
     }
     else{
@@ -86,6 +113,26 @@ function searchByTrait(people){
   })
   return foundPerson;
 }
+
+function dobSearch(people){
+  let dob = promptFor ("what is their date of Birth", chars).toLowerCase();
+
+  let foundPerson = people.filter(function(person){
+    if(person.dob === dob){
+      return true;
+    }
+    else if(person.dob !== dob){
+    console.log("Invalid date of birth.")
+    dobSearch(people)
+    }
+    else{
+      return false;
+    }
+  })
+  return foundPerson;
+}
+
+
 
 
 // alerts a list of people
