@@ -48,6 +48,8 @@ function mainMenu(person, people){
     break;
     case "descendants":
     // TODO: get person's descendants
+    displayDescendants(people);
+    console.log();
     break;
     case "restart":
     app(people); // restart
@@ -76,9 +78,8 @@ function searchByName(people){
 }
 
 function searchByTraitorOccupation(people){
-
-  while()
-  let searchTrait = promptFor("Do you know the trait you want to seach by?: gender, dob, height, weight, eyecolor, occupation", chars).toLowerCase();
+ 
+  let searchTrait = promptFor("Do you know the trait you want to seach by?: gender, dob, height, weight, eye color, occupation", chars).toLowerCase();
   let traitsFound;
   switch(searchTrait){
     case "gender":
@@ -90,10 +91,27 @@ function searchByTraitorOccupation(people){
        traitsFound = dobSearch(people);
        displayPeople(traitsFound);
      break;
+
     case "height":
       traitsFound = heightSearch(people)
-      displayPerson(traitsFound)
+      displayPeople(traitsFound)
       break;
+
+    case "weight":
+        traitsFound = weightSearch(people)
+        displayPeople(traitsFound)
+        break;
+
+    case "eye color":
+      traitsFound = eyeColorSearch(people)
+      displayPeople(traitsFound)
+      break;
+
+    case "occupation":
+      traitsFound = occupationSearch(people)
+      displayPeople(traitsFound)
+      break;
+
     case "restart":
       app(people);
       break;
@@ -144,15 +162,96 @@ function heightSearch(people){
     if(person.height === height){
       return true;
     }
-    else if(person.height !== height){
-      console.log("Invalit date of height.")
-      heightSearch(people)
+    else {
+      return false;
+    }
+  })
+  return foundPerson;
+}
+
+function weightSearch(people){
+  let weight = promptFor("What is the persons wieght?:", chars).toLowerCase();
+
+  let foundPerson = people.filter(function(person){
+    if(person.weight === weight){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+  return foundPerson;
+}
+
+function eyeColorSearch(people){
+  let eyeColor = promptFor("What is the persons eye color?: brown, black, hazel, blue, green", chars).toLowerCase();
+
+  let foundPerson = people.filter(function(person){
+    if(person.eyeColor === eyeColor){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+  return foundPerson;
+}
+
+function occupationSearch(people){
+  let occupation = promptFor("What is the persons occupation?: programmer, assistant," + "\n",
+   "landscaper, nurse, student, architect, doctor, politician", chars).toLowerCase();
+
+   let foundPerson = people.filter(function(person){
+     if(person.occupation === occupation){
+       return true;
+     }
+     else{
+       return false;
+     }
+   })
+   return foundPerson;
+}
+
+function parentSearch(people){
+  let parents = promptFor("Who are the persons parent(s)?", chars).toLowerCase();
+
+  let foundPerson = people.filter(function(person){
+    if(person.parents === parents){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+  return foundPerson;
+}
+
+function idSearch(people){
+  let id = promptFor("What is the persons Id?", chars).toLowerCase();
+
+  let foundPerson = people.filter(function(person){
+    if(person.id === id){
+      return true;
+    }
+    else{
+      return false;
     }
   })
   return foundPerson;
 }
 
 
+function displayDescendants(people){
+  let descendants = people.filter(function(person){
+    if (person.parents[0] === person.id || person.parents[1] === person.id ){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+  return descendants;
+}
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
@@ -166,9 +265,10 @@ function displayPerson(person){
   let personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
   personInfo += "Height: " + person.height + "\n";
-  personInfo += "Weight" + person.weight + "\n";
-  personInfo += "Occupation" + person.occupation + "\n";
-  personInfo
+  personInfo += "Weight: " + person.weight + "\n";
+  personInfo += "Eye color: " + person.eyeColor + "\n";
+  personInfo += "Occupation: " + person.occupation + "\n";
+  
     // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
