@@ -13,7 +13,7 @@ function app(people){
       break;
     case 'no':
       // TODO: search by traits
-      searchResults = searchByTrait(people)
+      searchResults = searchByTraitorOccupation(people);
       break;
       default:
     app(people); // restart app
@@ -36,10 +36,11 @@ function mainMenu(person, people){
   }
 
   let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
-
+  ;
   switch(displayOption){
     case "info":
     // TODO: get person's info
+    displayPerson(person);
     console.log();
     break;
     case "family":
@@ -74,19 +75,25 @@ function searchByName(people){
   return foundPerson[0];
 }
 
-function searchByTrait(people){
+function searchByTraitorOccupation(people){
 
-  let searchTrait = promptFor("Do you know the trait you want to seach by?", chars).toLowerCase();
-  let traitsFund;
+  while()
+  let searchTrait = promptFor("Do you know the trait you want to seach by?: gender, dob, height, weight, eyecolor, occupation", chars).toLowerCase();
+  let traitsFound;
   switch(searchTrait){
     case "gender":
       traitsFound = genderSearch(people);
+      displayPeople(traitsFound);
       break;
 
-    case "dob":
-    traitsFund = genderSearch(people);
-    break;
-
+     case "dob":
+       traitsFound = dobSearch(people);
+       displayPeople(traitsFound);
+     break;
+    case "height":
+      traitsFound = heightSearch(people)
+      displayPerson(traitsFound)
+      break;
     case "restart":
       app(people);
       break;
@@ -96,8 +103,9 @@ function searchByTrait(people){
 
     default:
     return mainMenue(person, people);
+    
   }
-  searchByTrait(traitsFund);
+  return searchByTraitorOccupation(traitsFound);
 }
 
 function genderSearch(people){
@@ -115,24 +123,34 @@ function genderSearch(people){
 }
 
 function dobSearch(people){
-  let dob = promptFor ("what is their date of Birth", chars).toLowerCase();
+  let dob = promptFor ("What is the persons date of birth", chars);
 
   let foundPerson = people.filter(function(person){
-    if(person.dob === dob){
+    if(person.dob == dob){
       return true;
     }
-    else if(person.dob !== dob){
-    console.log("Invalid date of birth.")
-    dobSearch(people)
-    }
     else{
-      return false;
+    return false;
     }
+    
   })
   return foundPerson;
 }
 
+function heightSearch(people){
+  let height = promptFor("What is the persons height?:", chars).toLowerCase();
 
+  let foundPerson = people.filter(function(person){
+    if(person.height === height){
+      return true;
+    }
+    else if(person.height !== height){
+      console.log("Invalit date of height.")
+      heightSearch(people)
+    }
+  })
+  return foundPerson;
+}
 
 
 // alerts a list of people
@@ -147,7 +165,11 @@ function displayPerson(person){
   // height, weight, age, name, occupation, eye color.
   let personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
-  // TODO: finish getting the rest of the information to display
+  personInfo += "Height: " + person.height + "\n";
+  personInfo += "Weight" + person.weight + "\n";
+  personInfo += "Occupation" + person.occupation + "\n";
+  personInfo
+    // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
 
