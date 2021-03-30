@@ -44,12 +44,15 @@ function mainMenu(person, people){
     console.log();
     break;
     case "family":
+      displayPeople(displaySpouse(people, person));
+      displayPeople(displayParents(people, person));
+      mainMenu(person, people);
     // TODO: get person's family
     break;
     case "descendants":
     // TODO: get person's descendants
-    displayDescendants(people);
-    console.log();
+    displayPeople(displayDescendants(people, person));
+    mainMenu(person, people);
     break;
     case "restart":
     app(people); // restart
@@ -59,6 +62,7 @@ function mainMenu(person, people){
     default:
     return mainMenu(person, people); // ask again
   }
+  
 }
 
 function searchByName(people){
@@ -226,32 +230,65 @@ function parentSearch(people){
   return foundPerson;
 }
 
-function idSearch(people){
-  let id = promptFor("What is the persons Id?", chars).toLowerCase();
-
-  let foundPerson = people.filter(function(person){
-    if(person.id === id){
+function displayParents(people, person){
+  let parent = people.filter(function(element){
+    if(person.id == element.parents[0] || person.id == element.parents[1] ){
       return true;
     }
     else{
       return false;
     }
   })
-  return foundPerson;
+  return parent;
 }
 
-
-function displayDescendants(people){
-  let descendants = people.filter(function(person){
-    if (person.parents[0] === person.id || person.parents[1] === person.id ){
+function displaySpouse(people, person){
+  // let currentSpouse = person.currentSpouse;
+  let sigOther = people.filter(function(element){
+    if(person.id == element.currentSpouse){
       return true;
     }
     else{
       return false;
     }
   })
-  return descendants;
+  return sigOther;
 }
+
+// function displaySpouce(people, person){
+//   // let searchFor = person;
+//   let spouce = people.filter(function(element){
+//     if(person.id == element.id){
+//       return true;
+//     }
+//     else{
+//       return false;
+//     }
+//   })
+//   return spouce;
+// }
+
+var newListofPeople = [];
+var counter = 0;
+function displayDescendants(people, person){
+  let descendants = people.filter(function(element){
+    if (person.id === element.parents[0] || person.id === element.parents[1]){
+      newListofPeople.push(element);
+      return true;
+      
+    }
+    else{
+      return false;
+    }
+  })
+  for (let i = counter; i<newListofPeople.length; i++)
+  {
+    counter++;
+    displayDescendants(people,newListofPeople[i]);
+  }
+  return newListofPeople;
+}
+
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
@@ -262,12 +299,18 @@ function displayPeople(people){
 function displayPerson(person){
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
-  let personInfo = "First Name: " + person.firstName + "\n";
-  personInfo += "Last Name: " + person.lastName + "\n";
-  personInfo += "Height: " + person.height + "\n";
-  personInfo += "Weight: " + person.weight + "\n";
-  personInfo += "Eye color: " + person.eyeColor + "\n";
-  personInfo += "Occupation: " + person.occupation + "\n";
+  let personInfo = "firstName" + person.firstName + "\n";
+  personInfo += "lastName" + person.lastName + "\n";
+  personInfo += "height" + person.height + "\n";
+  personInfo += "weight" + person.weight + "\n";
+  personInfo += "eyeColor " + person.eyeColor + "\n";
+  personInfo += "occupation " + person.occupation + "\n";
+  personInfo += "currentSpouse" + person.currentSpouse + "\n";
+  personInfo += "parents" + person.parents + "\n";
+  personInfo += "gender" + person.gender + "\n";
+  personInfo += "dob" + person.dob + "\n";
+  
+
   
     // TODO: finish getting the rest of the information to display
   alert(personInfo);
